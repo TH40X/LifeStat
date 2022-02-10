@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<style>
+    body {
+        background-color: #9addfb;
+    }
+
+    table {
+        background-color: white;
+        width: 100%;
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: center;
+    }
+
+    td, th {
+        border: 1px solid black;
+        width: 20%;
+        height: 40px;
+        font-size: 21px;
+    }
+    th.stat {
+        width: 40%;
+    }
+    th {
+        font-size: 25px;
+    }
+
+    div {
+        width: 99%;
+    }
+
+    .add {
+        padding: 10px;
+        margin: 10px 0px 10px 0px;
+        text-align: center;
+    }
+
+    .add input[type=TEXT] {
+        background-color: #cdeefd;
+        border: 2px solid black;
+        height: 40px;
+        width: 50%;
+        font-size: 20px;
+    }
+    .add .sub {
+        background-color: #9addfb;
+        height: 40px;
+        width: 40%;
+        cursor: pointer;
+        font-size: 20px;
+        border-radius: 8px;
+        border: solid 1px;
+        transition: all 0.5s;
+    }
+    .sub span {
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+    }
+    .sub span:after {
+        content: '\00bb';
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        right: -20px;
+        transition: 0.5s;
+    }
+    .sub:hover span {
+        padding-right: 25px;
+    }
+    .sub:hover span:after {
+        opacity: 1;
+        right: 0;
+    }
+
+    .hidden {
+        color: transparent;
+    }
+
+    .v {
+        border-radius: 8px;
+        cursor: pointer;
+        color: transparent;
+        background-color: #C1FDC1;
+        border: none;
+        width: 30%;
+        height: 80%;
+        margin: 5px;
+        transition: all 0.3s;
+    }
+    .v:hover {
+        box-shadow: 0px 0px 5px 5px #C1FDC1;
+    }
+    .x {
+        border-radius: 8px;
+        cursor: pointer;
+        color: transparent;
+        background-color: #FFB3B2;
+        border: none;
+        width: 30%;
+        height: 80%;
+        margin: 5px;
+        transition: all 0.3s;
+    }
+    .x:hover {
+        box-shadow: 0px 0px 5px 5px #FFB3B2;
+    }
+</style>
+
+<body>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+           load_color();
+        });
+
+        function load_color() {
+            var table = document.getElementById("table");
+            for (var i = 1, row; row = table.rows[i]; i++) {
+                for (var j = 1, col; col = row.cells[j]; j++) {
+                    if (col.innerText == "") {
+                        col.style.backgroundColor = "#D8D8D8";
+                    } else if (col.innerText[0] == "x") {
+                        col.style.backgroundColor = "#FFB3B2";
+                    } else if (col.innerText[0] == "v") {
+                        col.style.backgroundColor = "#C1FDC1";
+                    }
+                }
+            }
+        }
+
+        function load_color_transition() {
+            var table = document.getElementById("table");
+            for (var i = 1, row; row = table.rows[i]; i++) {
+                for (var j = 1, col; col = row.cells[j]; j++) {
+                    col.style.transition = "0.3s";
+                    if (col.innerText == "") {
+                        col.style.backgroundColor = "#D8D8D8";
+                    } else if (col.innerText[0] == "x") {
+                        col.style.backgroundColor = "#FFB3B2";
+                    } else if (col.innerText[0] == "v") {
+                        col.style.backgroundColor = "#C1FDC1";
+                    }
+                }
+            }
+        }
+
+        function send(stat, value) {
+            $.ajax({
+                url: '/receive',
+                type: 'POST',
+                data: stat + "@" + value,
+                success: function(response){}
+            })
+            document.getElementById(stat + "@n").innerText=value;
+            load_color_transition();
+        }
+    </script>
+
+    <table id="table">
+        <thead>
+        <tr>
+            <th class="stat">
+                Statistique
+            </th>
+            <th>
+                Bri
+            </th>
+            <th>
+                Yohann
+            </th>
+            <th>
+                Theo
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <div>
